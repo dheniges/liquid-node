@@ -28,6 +28,7 @@
     "node": ">= 0.10"
   },
   "dependencies": {
+    "q": "^1.1.2",
     "strftime": "~0.8.0"
   },
   "peerDependencies": {

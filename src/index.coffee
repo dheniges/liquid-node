@@ -49,5 +49,6 @@ Liquid.Ifchanged        = require("./liquid/tags/ifchanged")
 Liquid.Increment        = require("./liquid/tags/increment")
 Liquid.Raw              = require("./liquid/tags/raw")
 Liquid.Unless           = require("./liquid/tags/unless")
+Liquid.Include          = require("./liquid/tags/include")
 
 module.exports = Liquid
