@@ -98,6 +98,10 @@ module.exports = class Context
   hasKey: (key) ->
     Promise.cast(@resolve(key)).then (v) -> v?
 
+  evaluate: (object) ->
+    return object.evaluate(@) if ('evaluate' in object && (typeof object.evaluate == 'function'))
+    return object
+
   # PRIVATE API
 
   @Literals =

@@ -3,6 +3,8 @@ Promise = require "bluebird"
 
 module.exports = class Liquid.Template
 
+  @fileSystem: null
+
   # creates a new <tt>Template</tt> from an array of tokens.
   # Use <tt>Template.parse</tt> instead
   constructor: ->

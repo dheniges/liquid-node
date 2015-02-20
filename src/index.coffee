@@ -24,6 +24,7 @@ Liquid.Error = customError "Error"
   Liquid[className] = customError("Liquid.#{className}", Liquid.Error)
 
 Liquid.Engine           = require("./liquid/engine")
+Liquid.FileSystem       = require("./liquid/file_system")
 Liquid.Helpers          = require("./liquid/helpers")
 Liquid.Range            = require("./liquid/range")
 Liquid.Iterable         = require("./liquid/iterable")
