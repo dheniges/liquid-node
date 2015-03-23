@@ -9,6 +9,9 @@ module.exports = class Include extends Liquid.Tag
   Syntax = /([a-z0-9\/\\_-]+)/i
   SyntaxTwo = ///(#{Liquid.QuotedFragment.source})///
 
+  # TODO the ruby version supports a with/for syntax for passing additional context restrictions
+  #   SyntaxTwo = ///(#{Liquid.QuotedFragment.source})(\s+(?:with|for)\s+(#{Liquid.QuotedFragment.source}))?///
+
   SyntaxHelp = "Syntax Error in 'include' -
                 Valid syntax: include [templateName]"
 
@@ -21,15 +24,12 @@ module.exports = class Include extends Liquid.Tag
 
     @engine = template.engine
     @templateName = match[1]
-    #@variableName = match[3] || @templateName
 
-    # The ruby liquid implementation defines an Expression class
-    # with a parse method that is defined in this library as a
-    # `resolve` function on the context object. We do not have
-    # access to context in the constructor, so we have to resolve
-    # variables in render
-
-    @attributes = {}
+    # TODO the ruby version populates the context with specified 'with'
+    # variables and tag attributes. If needed, these should be replaced
+    # in context during @render
+    # @variableName = match[3] || @templateName
+    # @attributes = {}
 
     # TODO: iterate over markup to assign @attributes keys
     # markup.scan(TagAttributes) {|key, value| @attributes[key] = Expression.parse(value)}
@@ -46,10 +46,15 @@ module.exports = class Include extends Liquid.Tag
       partial.render(context)
 
   loadCachedPartial: (context) ->
-    # cachedPartials = context.registers['cachedPartials'] || {}
-    # TODO: implement caching
+    cachedPartials = context.registers['cachedPartials'] || {}
+    cached = cachedPartials[@templateName]
+    if cached
+      return cached
     source = @readTemplateFromFileSystem(context)
-    @engine.parse(source)
+    parsed = @engine.parse(source)
+    cachedPartials[@templateName] = parsed
+    context.registers['cachedPartials'] = cachedPartials
+    parsed
 
   readTemplateFromFileSystem: (context) ->
     Liquid.Template.fileSystem.readTemplateFile(@templateName)
