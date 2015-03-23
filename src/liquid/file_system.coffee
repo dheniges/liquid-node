@@ -1,6 +1,7 @@
-Liquid = require("../liquid")
-fs     = require("fs")
-path   = require('path')
+Liquid  = require("../liquid")
+Promise = require("bluebird")
+fs      = require("fs")
+path    = require("path")
 
 module.exports = class FileSystem
 
@@ -9,7 +10,7 @@ module.exports = class FileSystem
 
   readTemplateFile: (template_path, context) ->
     fullPath = @lookupFullPath(template_path)
-    fs.readFileSync(fullPath)
+    Promise.promisify(fs.readFile)(fullPath)
 
   lookupFullPath: (lookupPath) ->
     path.join(@root, lookupPath)

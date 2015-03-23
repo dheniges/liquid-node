@@ -50,11 +50,11 @@ module.exports = class Include extends Liquid.Tag
     cached = cachedPartials[@templateName]
     if cached
       return cached
-    source = @readTemplateFromFileSystem(context)
-    parsed = @engine.parse(source)
-    cachedPartials[@templateName] = parsed
-    context.registers['cachedPartials'] = cachedPartials
-    parsed
+    @readTemplateFromFileSystem(context).then (source) =>
+      parsed = @engine.parse(source)
+      cachedPartials[@templateName] = parsed
+      context.registers['cachedPartials'] = cachedPartials
+      parsed
 
   readTemplateFromFileSystem: (context) ->
     Liquid.Template.fileSystem.readTemplateFile(@templateName)
