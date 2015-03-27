@@ -1,4 +1,3 @@
-Q      = require 'q'
 Liquid = require "../../liquid"
 fs     = require 'fs'
 
@@ -6,8 +5,7 @@ fs     = require 'fs'
 
 module.exports = class Include extends Liquid.Tag
 
-  Syntax = /([a-z0-9\/\\_-]+)/i
-  SyntaxTwo = ///(#{Liquid.QuotedFragment.source})///
+  Syntax = ///(#{Liquid.QuotedFragment.source})///
 
   # TODO the ruby version supports a with/for syntax for passing additional context restrictions
   #   SyntaxTwo = ///(#{Liquid.QuotedFragment.source})(\s+(?:with|for)\s+(#{Liquid.QuotedFragment.source}))?///
@@ -16,8 +14,7 @@ module.exports = class Include extends Liquid.Tag
                 Valid syntax: include [templateName]"
 
   constructor: (template, tagName, markup, tokens) ->
-    console.log('constructing')
-    match = SyntaxTwo.exec(markup)
+    match = Syntax.exec(markup)
     throw new Liquid.SyntaxError(SyntaxHelp) unless match
 
     super
