@@ -95,6 +95,19 @@ module.exports =
   empty: (input) ->
     isEmpty(input)
 
+  # Ye old Fisher Yates shuffle
+  shuffle: (input) ->
+    shuffled = input
+
+    shuffle = (index, godIHateCoffeeScript) ->
+      j = Math.floor(Math.random() * (index + 1))
+      temp = shuffled[i]
+      shuffled[i] = shuffled[j]
+      shuffled[j] = temp
+
+    shuffle i, item for item, i in input
+    shuffled
+
   capitalize: (input) ->
     toString(input).replace /^([a-z])/, (m, chr) ->
       chr.toUpperCase()
